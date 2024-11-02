@@ -1,0 +1,49 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  monitoring_service:
+    build: ./monitoring_service
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+
+  irrigation_service:
+    build: ./irrigation_service
+    ports:
+      - "8001:8001"
+    environment:
+      - PORT=8001
+
+  inventory_service:
+    build: ./inventory_service
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+
+  order_service:
+    build: ./order_service
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3002:3002"
+    depends_on:
+      - monitoring_service
+      - irrigation_service
+      - inventory_service
+      - order_service
+
+  iot_device:
+    build: ./iot_device
+    depends_on:
+      - monitoring_service
+    environment:
+      - MONITORING_SERVICE_URL=http://monitoring_service:8000/soil-moisture
