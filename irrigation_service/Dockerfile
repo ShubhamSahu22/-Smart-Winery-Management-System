@@ -1,20 +1,20 @@
-# Dockerfile for Irrigation Control Service
+# irrigation_service/Dockerfile
 FROM python:3.9-slim
 
-# Set working directory
+# Set environment variables
+ENV PORT=8001
 WORKDIR /app
 
-# Copy requirements.txt
+# Copy and install dependencies
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Copy application files
 COPY . .
 
-# Expose the port the app runs on
+# Expose the service port
 EXPOSE 8001
 
-# Command to run the application
+# Run the app
 CMD ["python", "app.py"]
+
