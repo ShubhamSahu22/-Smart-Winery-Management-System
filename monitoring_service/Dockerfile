@@ -1,20 +1,19 @@
-# Dockerfile for Monitoring Service
+# monitoring_service/Dockerfile
 FROM python:3.9-slim
 
-# Set working directory
+# Set environment variables
+ENV PORT=8000
 WORKDIR /app
 
-# Copy requirements.txt first for better caching
+# Copy and install dependencies
 COPY requirements.txt .
-
-# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the rest of the application code
+# Copy application files
 COPY . .
 
-# Expose the port the app runs on
+# Expose the service port
 EXPOSE 8000
 
-# Command to run the application
+# Run the app
 CMD ["python", "app.py"]
